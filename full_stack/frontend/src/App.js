@@ -109,66 +109,96 @@ function App() {
   /* =======================
      UI
   ======================= */
-  return (
-    <div className="App">
-      <h1>Student Management</h1>
+return (
+  <div className="App">
+    <h1 className="title">🎓 Student Management System</h1>
 
-      {/* ===== Form ===== */}
-      <div className="card">
-        <h2>{editingId ? 'Edit Student' : 'Add New Student'}</h2>
-        <form onSubmit={handleSubmit}>
+    {/* ===== FORM ===== */}
+    <div className="card form-card">
+      <h2 className="card-title">
+        {editingId ? '✏️ Edit Student' : '➕ Add New Student'}
+      </h2>
+
+      <form onSubmit={handleSubmit} className="form">
+
+        <div className="form-group">
+          <label>Full Name</label>
           <input
-            placeholder="Full name"
+            type="text"
+            placeholder="Enter full name"
             value={name}
             onChange={e => setName(e.target.value)}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label>Age</label>
           <input
             type="number"
-            placeholder="Age"
+            min="1"
+            max="100"
+            placeholder="Enter age"
             value={age}
             onChange={e => setAge(e.target.value)}
             required
           />
+        </div>
+
+        <div className="form-group">
+          <label>Class</label>
           <input
-            placeholder="Class"
+            type="text"
+            placeholder="Ex: 12A1"
             value={stuClass}
             onChange={e => setStuClass(e.target.value)}
             required
           />
-
-          <div className="button-group">
-            <button type="submit">
-              {editingId ? 'Update' : 'Add'}
-            </button>
-            {editingId && (
-              <button type="button" className="btn-cancel" onClick={resetForm}>
-                Cancel
-              </button>
-            )}
-          </div>
-        </form>
-      </div>
-
-      {/* ===== Table ===== */}
-      <div className="card">
-        <h2>Student List</h2>
-
-        <div className="controls">
-          <input
-            className="search-input"
-            placeholder="Search by name..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-          />
-          <button className="btn-sort" onClick={() => setSortAsc(!sortAsc)}>
-            Sort: {sortAsc ? 'A → Z' : 'Z → A'}
-          </button>
         </div>
 
-        {sortedStudents.length === 0 ? (
-          <p>No students found</p>
-        ) : (
+        <div className="button-group">
+          <button type="submit" className="btn-primary">
+            {editingId ? 'Update Student' : 'Add Student'}
+          </button>
+
+          {editingId && (
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={resetForm}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
+
+      </form>
+    </div>
+
+    {/* ===== TABLE ===== */}
+    <div className="card table-card">
+      <h2 className="card-title">📋 Student List</h2>
+
+      <div className="controls">
+        <input
+          className="search-input"
+          placeholder="🔍 Search by name..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+
+        <button
+          className="btn-sort"
+          onClick={() => setSortAsc(!sortAsc)}
+        >
+          {sortAsc ? '⬇ Sort Z → A' : '⬆ Sort A → Z'}
+        </button>
+      </div>
+
+      {sortedStudents.length === 0 ? (
+        <p className="no-data">No students found</p>
+      ) : (
+        <div className="table-wrapper">
           <table>
             <thead>
               <tr>
@@ -178,28 +208,41 @@ function App() {
                 <th>Actions</th>
               </tr>
             </thead>
+
             <tbody>
               {sortedStudents.map(s => (
                 <tr key={s._id}>
                   <td>{s.name}</td>
                   <td>{s.age}</td>
                   <td>{s.class}</td>
-                  <td>
-                    <button className="btn-edit" onClick={() => handleEdit(s)}>
+                  <td className="action-buttons">
+
+                    <button
+                      className="btn-edit"
+                      onClick={() => handleEdit(s)}
+                    >
                       Edit
                     </button>
-                    <button className="btn-delete" onClick={() => handleDelete(s._id)}>
+
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(s._id)}
+                    >
                       Delete
                     </button>
+
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
+
     </div>
-  );
+  </div>
+);
+
 }
 
 export default App;
